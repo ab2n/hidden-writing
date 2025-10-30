@@ -2,8 +2,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Éditeur noir-sur-noir — touche &", layout="wide")
-st.title("Éditeur noir-sur-noir")
+st.set_page_config(page_title="Éditeur noir-sur-noir — touche Échap", layout="wide")
+st.title("Éditeur noir-sur-noir — visible uniquement quand tu maintiens la touche Échap (Esc)")
 
 html = r"""
 <!doctype html>
@@ -63,41 +63,32 @@ html = r"""
 </head>
 <body>
 <div class="wrap">
-  <textarea id="editor" spellcheck="false" placeholder="Tape ici — le texte est invisible tant que tu ne maintiens pas &."></textarea>
-  <div class="hint">💡 Le texte s'affiche uniquement quand tu maintiens la touche « & » (Shift + 1 sur clavier FR).</div>
+  <textarea id="editor" spellcheck="false" placeholder="Tape ici — le texte est invisible tant que tu ne maintiens pas Échap."></textarea>
+  <div class="hint">💡 Maintiens la touche <b>Échap (Escape)</b> pour afficher temporairement ton texte.</div>
 </div>
 
 <script>
 (function(){
   const editor = document.getElementById('editor');
-  let ampersandDown = false;
+  let escDown = false;
 
   window.addEventListener('keydown', (e) => {
-    // Pour la touche "&", le key est '1' avec shift sur clavier FR
-    // Donc on vérifie Shift + '1'
-    if (e.key === '1' && e.shiftKey) {
-      if (!ampersandDown) {
-        ampersandDown = true;
-        editor.classList.add('visible');
-      }
+    if (e.key === 'Escape' && !escDown) {
+      escDown = true;
+      editor.classList.add('visible');
+      e.preventDefault(); // empêche l’effet par défaut du Esc (ex: quitter plein écran)
     }
-  }, {passive:true});
+  }, {passive:false});
 
   window.addEventListener('keyup', (e) => {
-    if (e.key === '1' && e.shiftKey === false) {
-      // Quand on relâche Shift avant ou après 1, on cache
-      ampersandDown = false;
-      editor.classList.remove('visible');
-    }
-    // Si on relâche la touche "1" tout court
-    if (e.key === '1') {
-      ampersandDown = false;
+    if (e.key === 'Escape') {
+      escDown = false;
       editor.classList.remove('visible');
     }
   }, {passive:true});
 
   window.addEventListener('blur', () => {
-    ampersandDown = false;
+    escDown = false;
     editor.classList.remove('visible');
   });
 
