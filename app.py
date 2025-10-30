@@ -3,7 +3,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Éditeur noir-sur-noir — touche &", layout="wide")
-st.title("Éditeur noir-sur-noir — visible uniquement quand tu maintiens la touche &")
+st.title("Éditeur noir-sur-noir")
 
 html = r"""
 <!doctype html>
