@@ -3,7 +3,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Éditeur noir-sur-noir — touche Échap", layout="wide")
-st.title("Éditeur B&B (Esc)")
+st.title("")
 
 html = r"""
 <!doctype html>
